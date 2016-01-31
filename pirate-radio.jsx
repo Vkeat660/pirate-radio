@@ -53,12 +53,12 @@ Meteor.methods({
   },
 
   setChecked(taskId, setChecked) {
-    const task = Taks.findOne(taskId);
-    if (task.private && task.owner !== Meteor.usedId()) {
+    const task = Tasks.findOne(taskId);
+    if (task.private && task.owner !== Meteor.userId()) {
       // if the task is private, make sure only the owner can check it
       throw new Meteor.Error("not-authorized");
     }
-    
+
     Tasks.update(taskId, {$set: {checked: setChecked}});
   },
 
