@@ -7,7 +7,7 @@ App = React.createClass({
   // Loads items from the Tasks collection and puts them on this.data.Tasks
   getMeteorData() {
     return {
-      tasks: Tasks.find({}).fetch()
+      tasks: Tasks.find({}, {sort: {createdAt: -1}}).fetch()
     }
   },
 
@@ -39,7 +39,7 @@ App = React.createClass({
         <header>
           <h1>Pirate Radio</h1>
 
-          
+
           <form className="new-task" onSubmit={this.handleSubmit} >
             <input type="text" ref="textInput" placeholder="Type to add new tasks" />
           </form>
