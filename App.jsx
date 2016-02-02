@@ -75,7 +75,8 @@ App = React.createClass({
 
           { this.data.currentUser ?
             <form className="new-track" onSubmit={this.handleSubmit} >
-              <input type="text" ref="textInput" placeholder="Type to add new tracks" />
+              <input type="text" ref="textInput" placeholder="Song Name" />
+              <input type="text" ref="urlInput"  placeholder="Youtube URL" />
             </form> : ''
           }
 
