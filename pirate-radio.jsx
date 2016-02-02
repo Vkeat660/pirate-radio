@@ -27,7 +27,7 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  addTrack(text) {
+  addTrack(text, url) {
     // Make sure the user is logged in before inserting a track
     if (! Meteor.userId()) {
       throw new Meteor.Error("not-authorized");
@@ -35,6 +35,7 @@ Meteor.methods({
 
     Tracks.insert({
       text: text,
+      url: url,
       createdAt: new Date(),
       owner: Meteor.userId(),
       username: Meteor.user().username

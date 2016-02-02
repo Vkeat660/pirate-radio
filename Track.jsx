@@ -45,7 +45,7 @@ Track = React.createClass({
         ) : ''}
 
         <span className="text">
-          <strong>{this.props.track.username}</strong>: {this.props.track.text}
+          <strong>{this.props.track.username}</strong>: {this.props.track.text}  {this.props.track.url}
           
         </span>
       </li>

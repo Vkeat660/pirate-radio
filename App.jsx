@@ -44,10 +44,11 @@ App = React.createClass({
     var text = React.findDOMNode(this.refs.textInput).value.trim();
     var url = React.findDOMNode(this.refs.urlInput).value.trim();
 
-    Meteor.call("addTrack", text);
+    Meteor.call("addTrack", text, url);
 
     // Clear form
     React.findDOMNode(this.refs.textInput).value = "";
+    React.findDOMNode(this.refs.urlInput).value = "";
 
   },
 
