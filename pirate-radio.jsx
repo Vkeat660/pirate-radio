@@ -1,4 +1,4 @@
-Tasks = new Mongo.Collection("tasks");
+Tracks = new Mongo.Collection("tracks");
 
 if (Meteor.isClient) {
   // Code that is executed on the client only
@@ -6,7 +6,7 @@ if (Meteor.isClient) {
     passwordSignupFields: "USERNAME_ONLY"
   });
 
-  Meteor.subscribe("tasks");
+  Meteor.subscribe("tracks");
 
   Meteor.startup(function () {
     // Use Meteor.startup to render the component after the page is ready
@@ -16,8 +16,8 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-  Meteor.publish("tasks", function () {
-    return Tasks.find({
+  Meteor.publish("tracks", function () {
+    return Tracks.find({
       $or: [
         { private: {$ne: true} },
         { owner: this.userId}
@@ -27,13 +27,13 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  addTask(text) {
-    // Make sure the user is logged in before inserting a task
+  addTrack(text) {
+    // Make sure the user is logged in before inserting a track
     if (! Meteor.userId()) {
       throw new Meteor.Error("not-authorized");
     }
 
-    Tasks.insert({
+    Tracks.insert({
       text: text,
       createdAt: new Date(),
       owner: Meteor.userId(),
@@ -41,36 +41,36 @@ Meteor.methods({
     });
   },
 
-  removeTask(taskId) {
+  removeTrack(trackId) {
 
-    const task = Tasks.findOne(taskId);
-    if (task.private && task.owner !== Meteor.userId()) {
-      // If the task is private, make sure only the owner can delete
+    const track = Tracks.findOne(trackId);
+    if (track.private && track.owner !== Meteor.userId()) {
+      // If the track is private, make sure only the owner can delete
       throw new Meteor.Error("not-authorized");
     }
 
-    Tasks.remove(taskId);
+    Tracks.remove(trackId);
   },
 
-  setChecked(taskId, setChecked) {
-    const task = Tasks.findOne(taskId);
-    if (task.private && task.owner !== Meteor.userId()) {
-      // if the task is private, make sure only the owner can check it
+  setChecked(trackId, setChecked) {
+    const track = Tracks.findOne(trackId);
+    if (track.private && track.owner !== Meteor.userId()) {
+      // if the track is private, make sure only the owner can check it
       throw new Meteor.Error("not-authorized");
     }
 
-    Tasks.update(taskId, {$set: {checked: setChecked}});
+    Tracks.update(trackId, {$set: {checked: setChecked}});
   },
 
-  setPrivate(taskId, setToPrivate) {
-    const task = Tasks.findOne(taskId);
+  setPrivate(trackId, setToPrivate) {
+    const track = Tracks.findOne(trackId);
 
-    // Make sure only the task owner can make a task private
-    if (task.owner !== Meteor.userId()) {
+    // Make sure only the track owner can make a track private
+    if (track.owner !== Meteor.userId()) {
       throw new Meteor.Error("not-authorized");
     }
 
-    Tasks.update(taskId, { $set: { private: setToPrivate} });
+    Tracks.update(trackId, { $set: { private: setToPrivate} });
 
   }
 });

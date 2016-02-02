@@ -11,29 +11,29 @@ App = React.createClass({
     }
   },
 
-  // Loads items from the Tasks collection and puts them on this.data.Tasks
+  // Loads items from the Tracks collection and puts them on this.data.Tracks
   getMeteorData() {
 
     let query = {};
 
     if (this.state.hideCompleted) {
-      // If hide completed is checked, filter tasks
+      // If hide completed is checked, filter tracks
       query = {checked: {$ne: true}};
     }
 
     return {
-      tasks: Tasks.find(query, {sort: {createdAt: -1}}).fetch(),
-      incompleteCount: Tasks.find({checked: {$ne: true}}).count(),
+      tracks: Tracks.find(query, {sort: {createdAt: -1}}).fetch(),
+      incompleteCount: Tracks.find({checked: {$ne: true}}).count(),
       currentUser: Meteor.user()
     };
 
   },
 
-  renderTasks() {
-    return this.data.tasks.map((task) => {
+  renderTracks() {
+    return this.data.tracks.map((track) => {
       const currentUserId = this.data.currentUser && this.data.currentUser._id;
-      const showPrivateButton = task.owner === currentUserId;
-      return <Task key={task._id} task={task} showPrivateButton={showPrivateButton} />;
+      const showPrivateButton = track.owner === currentUserId;
+      return <Track key={track._id} track={track} showPrivateButton={showPrivateButton} />;
     });
   },
 
@@ -43,7 +43,7 @@ App = React.createClass({
     // Find the text field via the React ref
     var text = React.findDOMNode(this.refs.textInput).value.trim();
 
-    Meteor.call("addTask", text);
+    Meteor.call("addTrack", text);
 
     // Clear form
     React.findDOMNode(this.refs.textInput).value = "";
@@ -68,21 +68,21 @@ App = React.createClass({
               readOnly={true}
               checked={this.state.hideCompleted}
               onClick={this.toggleHideCompleted} />
-            Hide Completed Task
+            Hide Track
           </label>
 
           <AccountsUIWrapper />
 
           { this.data.currentUser ?
-            <form className="new-task" onSubmit={this.handleSubmit} >
-              <input type="text" ref="textInput" placeholder="Type to add new tasks" />
+            <form className="new-track" onSubmit={this.handleSubmit} >
+              <input type="text" ref="textInput" placeholder="Type to add new tracks" />
             </form> : ''
           }
 
         </header>
 
         <ul>
-          {this.renderTasks()}
+          {this.renderTracks()}
         </ul>
       </div>
     );
