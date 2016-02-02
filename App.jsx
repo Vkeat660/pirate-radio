@@ -42,6 +42,7 @@ App = React.createClass({
 
     // Find the text field via the React ref
     var text = React.findDOMNode(this.refs.textInput).value.trim();
+    var url = React.findDOMNode(this.refs.urlInput).value.trim();
 
     Meteor.call("addTrack", text);
 
@@ -74,9 +75,10 @@ App = React.createClass({
           <AccountsUIWrapper />
 
           { this.data.currentUser ?
-            <form className="new-track" onSubmit={this.handleSubmit} >
+            <form className="new-track" onSubmit={this.handleSubmit}>
               <input type="text" ref="textInput" placeholder="Song Name" />
               <input type="text" ref="urlInput"  placeholder="Youtube URL" />
+              <input type="submit" value="Submit song to playlist" />
             </form> : ''
           }
 
